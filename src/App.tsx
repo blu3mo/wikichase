@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Wikipedia from "./components/Wikipedia";
+import WikipediaPage from "./components/WikipediaPage";
 
 function App() {
   return (
       <div className="game">
-          <Wikipedia
+          <WikipediaPage
               lang="ja"
               title="ウィキペディア"
           />
