@@ -7,7 +7,7 @@ function App() {
       <div className="game">
           <WikipediaPage
               lang="ja"
-              title="ウィキペディア"
+              title="Wikipedia"
           />
       </div>
   );

@@ -1,8 +1,5 @@
-import React, {createElement, useEffect, useState} from "react";
-import parse from "html-react-parser"
-import {create} from "domain";
-import "./wikipedia.css"
 import MediaWikiPage from "./MediaWikiPage";
+import "./WikipediaPage.css";
 
 function WikipediaPage(props: { lang: string, title: string }) {
     return (
