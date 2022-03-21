@@ -41,6 +41,9 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
     }
 
     const isLinkNode = (props: Props) => {
+        if (props.className === "mw-redirect") {
+            return true
+        }
         return props.className === undefined && props.id === undefined && props.title != undefined
     }
 
