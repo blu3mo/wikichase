@@ -13,8 +13,11 @@ function useGame(gameId: string, isChaser: boolean) {
 
     const db = getDatabase();
     const gameRef = ref(db, `games/${gameId}`);
+
     const playerRef = child(gameRef, playerType(isChaser));
     const playerPageRef = child(playerRef, "pages")
+    const opponentRef = child(gameRef, playerType(!isChaser));
+    const opponentPageRef = child(opponentRef, "pages");
 
     React.useEffect(() => {
         get(playerPageRef).then((snapshot) => {
@@ -30,14 +33,11 @@ function useGame(gameId: string, isChaser: boolean) {
             setPlayerPages(pages)
         });
 
-        const opponentRef = child(gameRef, playerType(!isChaser));
-        const opponentPageRef = child(opponentRef, "pages");
         listenPages(opponentPageRef, (pages) => {
             setOpponentPages(pages)
         });
 
     }, []);
-
 
     const listenPages = (pageRef: DatabaseReference, pageUpdated: (pages: string[]) => void) => {
         onValue(pageRef, (snapshot) => {

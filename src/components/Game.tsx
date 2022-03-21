@@ -27,8 +27,8 @@ function Game(props: Props) {
                     e.preventDefault()
                 }}
             />
-            <div className="Opponent Pages">
-                <p>SideBar</p>
+            <div className="sideBar">
+                <p>Opponent Pages</p>
                 <p>{opponentPages.join(" -> ")}</p>
             </div>
         </div>
