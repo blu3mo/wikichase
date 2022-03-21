@@ -13,7 +13,7 @@ function Game(props: Props) {
     console.log(props)
     console.log(useParams().gameId!)
 
-    const {title, onLinkChange, opponentPages} = useGame(props.gameId, props.isChaser);
+    const {title, onLinkChange, playerPages, opponentPages} = useGame(props.gameId, props.isChaser);
 
     return (
         <div className="game">
@@ -28,7 +28,9 @@ function Game(props: Props) {
                 }}
             />
             <div className="sideBar">
-                <p>Opponent Pages</p>
+                <b>My Pages</b>
+                <p>{playerPages.join(" -> ")}</p>
+                <b>Opponent Pages</b>
                 <p>{opponentPages.join(" -> ")}</p>
             </div>
         </div>
