@@ -9,6 +9,9 @@ function App() {
               lang="ja"
               title="Wikipedia"
           />
+          <div className="sideBar">
+              <p>SideBar</p>
+          </div>
       </div>
   );
 }

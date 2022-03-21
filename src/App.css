@@ -1,4 +1,16 @@
 .game {
     margin: 0;
-    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.mediaWikiPage {
+    padding: 25px;
+}
+
+.sideBar {
+    flex-basis: 200px;
+    border-left: 1px solid #ccc;
+    flex-shrink: 0;
 }
