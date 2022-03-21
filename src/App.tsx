@@ -1,30 +1,36 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import WikipediaPage from "./components/WikipediaPage";
-import {Element} from "html-react-parser";
-import useGame from "./hooks/useGame";
-import useMediaWikiPage from "./hooks/useMediaWikiPage";
+import { useGame } from "./hooks/game/useGame";
+import { BrowserRouter, Routes, Route, useParams} from 'react-router-dom';
+import Game from "./components/Game";
 
 function App() {
 
-    const {title, setTitle} = useGame();
+    const GameRouter = () => {
+        const { gameId, playerType } = useParams();
+        switch (playerType) {
+            case 'chaser':
+                return <Game gameId={gameId!} isChaser={true}/>;
+            case 'evader':
+                return <Game gameId={gameId!} isChaser={false}/>;
+            default:
+                return <></>;
+        }
+    }
 
     return (
-        <div className="game">
-            <WikipediaPage
-                lang="ja"
-                title={title}
-                onLinkClick={(e) => {
-                    console.log(e.target)
-                    console.log((e.target as HTMLAnchorElement).title)
-                    setTitle((e.target as HTMLAnchorElement).title)
-                    e.preventDefault()
-                }}
-            />
-            <div className="sideBar">
-                <p>SideBar</p>
-            </div>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route
+                    path="/:gameId/:playerType"
+                    element={
+                        <GameRouter />
+                    }
+                >
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
