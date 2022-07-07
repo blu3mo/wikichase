@@ -6,11 +6,12 @@ type Props = {
     apiURL: string;
     title: string;
     onLinkClick: MouseEventHandler<HTMLAnchorElement>;
+    hideBottomContent: boolean;
 }
 
 function MediaWikiPage(props: Props) {
 
-    const [pageElement, redirectedTitle, tagLine] = useMediaWikiPage(props.apiURL, props.title, props.onLinkClick);
+    const [pageElement, redirectedTitle, tagLine] = useMediaWikiPage(props.apiURL, props.title, props.onLinkClick, props.hideBottomContent);
 
     return (
         <div className="mediaWikiPage">

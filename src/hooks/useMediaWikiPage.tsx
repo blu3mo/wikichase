@@ -26,7 +26,7 @@ const fetchRedirectedTitle = async (apiURL: string, title: string): Promise<stri
     return title
 }
 
-function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEventHandler) {
+function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEventHandler, hideBottomContent: boolean) {
     const [pageElement, setPageElement] = useState<ParsedElement>("");
     const [redirectedTitle, setRedirectedTitle] = useState("");
     const [tagLine, setTagLine] = useState("");
@@ -56,26 +56,28 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
                             )
                         }
                         //第二段落以降のぼかし処理
-                        const parent = node.parent
-                        if (parent instanceof Element) {
-                            if (parent.attribs.class === "mw-parser-output") {
-                                console.log(parent)
-                                //節タイトルが何番目の要素かを調べる
-                                const titleIndex = parent.childNodes.findIndex((childNode) => {
-                                    if (childNode instanceof Element) {
-                                        return (childNode.name === "h2")
-                                    }
-                                    return false
-                                })
-                                //節タイトルが見つからなかった場合は2個目の要素以降を隠す
-                                const hidingIndex = (titleIndex === -1) ? 2 : titleIndex
-                                //同階層の中で自分が何番目の要素かを調べる
-                                const nodeIndex = parent.childNodes.findIndex(childNode => childNode === node)
+                        if (hideBottomContent) {
+                            const parent = node.parent
+                            if (parent instanceof Element) {
+                                if (parent.attribs.class === "mw-parser-output") {
+                                    console.log(parent)
+                                    //節タイトルが何番目の要素かを調べる
+                                    const titleIndex = parent.childNodes.findIndex((childNode) => {
+                                        if (childNode instanceof Element) {
+                                            return (childNode.name === "h2")
+                                        }
+                                        return false
+                                    })
+                                    //節タイトルが見つからなかった場合は2個目の要素以降を隠す
+                                    const hidingIndex = (titleIndex === -1) ? 2 : titleIndex
+                                    //同階層の中で自分が何番目の要素かを調べる
+                                    const nodeIndex = parent.childNodes.findIndex(childNode => childNode === node)
 
-                                if (nodeIndex >= hidingIndex) {
-                                    node.attribs.class += " hiddenContent"
+                                    if (nodeIndex >= hidingIndex) {
+                                        node.attribs.class += " hiddenContent"
+                                    }
+                                    return node
                                 }
-                                return node
                             }
                         }
                     }

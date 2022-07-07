@@ -6,6 +6,7 @@ type Props = {
     lang: string;
     title: string;
     onLinkClick: MouseEventHandler<HTMLAnchorElement>;
+    hideBottomContent: boolean;
 }
 
 function WikipediaPage(props: Props) {
@@ -15,6 +16,7 @@ function WikipediaPage(props: Props) {
                 apiURL={`https://${props.lang}.wikipedia.org/w/api.php`}
                 title={props.title}
                 onLinkClick={props.onLinkClick}
+                hideBottomContent={props.hideBottomContent}
             />
         </>
     );

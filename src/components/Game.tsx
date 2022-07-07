@@ -27,6 +27,7 @@ function Game(props: Props) {
                     window.scrollTo(0, 0);
                     e.preventDefault()
                 }}
+                hideBottomContent={!props.isChaser} //Evaderには隠される
             />
             <div className="sideBar">
                 <p className={"bold"}>Game ID: {props.gameId}</p>
