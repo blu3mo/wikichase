@@ -15,6 +15,16 @@ function Game(props: Props) {
 
     const {title, onLinkChange, playerPages, opponentPages} = useGame(props.gameId, props.isChaser);
 
+    const filterPageList = (pageList: string[]): string[] => {
+        return pageList.map((page, index) => {
+            if (index % 3 === 0) {
+                return page
+            } else {
+                return "??"
+            }
+        })
+    }
+
     return (
         <div className="game">
             <WikipediaPage
@@ -33,10 +43,16 @@ function Game(props: Props) {
                 <p className={"bold"}>Game ID: {props.gameId}</p>
                 <p className={"bold"}>You are: {props.isChaser ? "👮 CHASER" : "🦹‍ EVADER"}</p>
                 <br></br>
-                <p className={"bold"}>Chaser's Log</p>
-                <p>{playerPages.slice().reverse().join(" ← ")}</p>
-                <p className={"bold"}>Opponent's Log</p>
-                <p>{opponentPages.slice().reverse().join(" ← ")}</p>
+                <p className={"bold"}>👮 Chaser Log</p>
+                <p>{
+                    (props.isChaser ? playerPages : opponentPages)
+                        .slice().reverse().join(" ← ")
+                }</p>
+                <p className={"bold"}>🦹 Evader Log</p>
+                <p>{
+                    filterPageList(props.isChaser ? opponentPages : playerPages)
+                        .slice().reverse().join(" ← ")
+                }</p>
             </div>
         </div>
     )
