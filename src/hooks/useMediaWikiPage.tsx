@@ -69,7 +69,7 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
                                         return false
                                     })
                                     //節タイトルが見つからなかった場合は2個目の要素以降を隠す
-                                    const hidingIndex = (titleIndex === -1) ? 2 : titleIndex
+                                    const hidingIndex = (titleIndex === -1) ? 3 : titleIndex
                                     //同階層の中で自分が何番目の要素かを調べる
                                     const nodeIndex = parent.childNodes.findIndex(childNode => childNode === node)
 
