@@ -1,6 +1,6 @@
 import {MouseEventHandler, useEffect, useState} from "react";
 import parse, {attributesToProps, DOMNode, domToReact, Element} from "html-react-parser";
-import {Props} from "html-react-parser/lib/attributes-to-props";
+import {Attributes, Props} from "html-react-parser/lib/attributes-to-props";
 
 type ParsedElement = string | JSX.Element | JSX.Element[]
 
@@ -31,11 +31,12 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
     const [redirectedTitle, setRedirectedTitle] = useState("");
     const [tagLine, setTagLine] = useState("");
 
-    const checkIfLinkNode = (props: Props) => {
-        if (props.className === "mw-redirect") {
+    const checkIfLinkNode = (attribs: Attributes) => {
+        if (attribs.class === "mw-redirect") {
             return true
         }
-        return props.className === undefined && props.id === undefined && props.title !== undefined
+        return attribs.class === undefined && attribs.id === undefined && attribs.title !== undefined
+        //他Wikipediaページへの有効なリンクには、クラスやIDが付与されていない
     }
 
     useEffect(() => {
@@ -43,46 +44,32 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
             const pageElement = parse(HTMLString, {
                 replace: (node: DOMNode) => {
                     if (node instanceof Element) {
-                        const props = attributesToProps(node.attribs);
-                        switch (node.name) {
-                            case "a":
-                                const isLinkNode = checkIfLinkNode(props)
-                                return (
-                                    <a {...props} onClick={ isLinkNode ? onLinkClick : undefined} >
-                                        { domToReact(node.children) }
-                                    </a>
-                                )
-                            case "div":
-                                //const props = attributesToProps(node.attribs);
-                                //if (props.class === "")
-                                if (props.className === "mw-parser-output") {
-                                    const childNodes = node.childNodes
-                                    const titleIndex = childNodes.findIndex((childNode) => {
-                                        if (childNode instanceof Element) {
-                                            return (childNode.name === "h2") //節タイトルであればtrue
-                                        }
-                                        return false
-                                    })
-                                    console.log(titleIndex)
-                                    //console.log(node)
-                                    console.log(node.children)
-                                    const newChildNodes = childNodes.map((childNode, i) => {
-                                        if (i < titleIndex) {
-                                            return childNode
-                                        } else {
-                                            if (childNode instanceof Element) {
-                                                childNode.attribs.className = "transparent"
-                                            }
-                                            return childNode
-                                        }
-                                    })
-                                    console.log(node.childNodes)
-                                    return (
-                                        <div {...props} >
-                                            { domToReact(newChildNodes as DOMNode[]) }
-                                        </div>
-                                    )
+                        if (node.name === "a") {
+                            const isLinkNode = checkIfLinkNode(node.attribs)
+                            const props = attributesToProps(node.attribs);
+                            props.href = "javascript:void(0)"
+                            return (
+                                <a {...props} onClick={isLinkNode ? onLinkClick : undefined}>
+                                    {domToReact(node.children)}
+                                </a>
+                            )
+                        }
+                        const parent = node.parent
+                        if (parent instanceof Element) {
+                            if (parent.attribs.class === "mw-parser-output") {
+                                console.log(parent)
+                                const titleIndex = parent.childNodes.findIndex((childNode) => {
+                                    if (childNode instanceof Element) {
+                                        return (childNode.name === "h2") //節タイトルであればtrue
+                                    }
+                                    return false
+                                })
+                                const nodeIndex = parent.childNodes.findIndex(childNode => childNode === node)
+                                if (nodeIndex >= titleIndex) {
+                                    node.attribs.class += " hiddenContent"
                                 }
+                                return node
+                            }
                         }
                     }
                 }

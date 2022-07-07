@@ -1,7 +1,8 @@
 .bold {
     font-weight: bold;
 }
-.transparent {
-    opacity: 0.2;
+.hiddenContent {
+    opacity: 0.8;
     pointer-events: none;
+    filter: blur(3px);
 }
