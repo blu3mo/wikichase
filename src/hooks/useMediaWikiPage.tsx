@@ -35,7 +35,7 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
         if (props.className === "mw-redirect") {
             return true
         }
-        return props.className === undefined && props.id === undefined && props.title != undefined
+        return props.className === undefined && props.id === undefined && props.title !== undefined
     }
 
     useEffect(() => {
@@ -43,19 +43,45 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
             const pageElement = parse(HTMLString, {
                 replace: (node: DOMNode) => {
                     if (node instanceof Element) {
+                        const props = attributesToProps(node.attribs);
                         switch (node.name) {
                             case "a":
-                                const props = attributesToProps(node.attribs);
-                                const isFirstParagraph = (node.parent?.prev === null)
                                 const isLinkNode = checkIfLinkNode(props)
                                 return (
                                     <a {...props} onClick={ isLinkNode ? onLinkClick : undefined} >
                                         { domToReact(node.children) }
                                     </a>
                                 )
-                            case "p":
-                                //console.log(node)
-                                if (node.prev === null) {
+                            case "div":
+                                //const props = attributesToProps(node.attribs);
+                                //if (props.class === "")
+                                if (props.className === "mw-parser-output") {
+                                    const childNodes = node.childNodes
+                                    const titleIndex = childNodes.findIndex((childNode) => {
+                                        if (childNode instanceof Element) {
+                                            return (childNode.name === "h2") //節タイトルであればtrue
+                                        }
+                                        return false
+                                    })
+                                    console.log(titleIndex)
+                                    //console.log(node)
+                                    console.log(node.children)
+                                    const newChildNodes = childNodes.map((childNode, i) => {
+                                        if (i < titleIndex) {
+                                            return childNode
+                                        } else {
+                                            if (childNode instanceof Element) {
+                                                childNode.attribs.className = "transparent"
+                                            }
+                                            return childNode
+                                        }
+                                    })
+                                    console.log(node.childNodes)
+                                    return (
+                                        <div {...props} >
+                                            { domToReact(newChildNodes as DOMNode[]) }
+                                        </div>
+                                    )
                                 }
                         }
                     }
