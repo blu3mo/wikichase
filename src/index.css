@@ -1,8 +1,0 @@
-.bold {
-    font-weight: bold;
-}
-.hiddenContent {
-    opacity: 0.8;
-    pointer-events: none;
-    filter: blur(3px);
-}

@@ -7,10 +7,23 @@
 
 .mediaWikiPage {
     padding: 25px;
+    height: 100vh;
+    overflow: scroll;
 }
 
 .sideBar {
     flex-basis: 200px;
     border-left: 1px solid #ccc;
     flex-shrink: 0;
+    height: 100vh;
+    overflow: scroll;
+}
+
+.bold {
+    font-weight: bold;
+}
+.hiddenContent {
+    opacity: 0.8;
+    pointer-events: none;
+    filter: blur(3px);
 }
