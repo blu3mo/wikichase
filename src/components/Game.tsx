@@ -21,6 +21,7 @@ function Game(props: Props) {
                 lang="ja"
                 title={title}
                 onLinkClick={(e) => {
+                    console.log(e.target)
                     const target = e.target as HTMLAnchorElement
                     onLinkChange(target.title)
                     window.scrollTo(0, 0);
@@ -28,10 +29,13 @@ function Game(props: Props) {
                 }}
             />
             <div className="sideBar">
-                <b>My Pages</b>
-                <p>{playerPages.join(" -> ")}</p>
-                <b>Opponent Pages</b>
-                <p>{opponentPages.join(" -> ")}</p>
+                <p className={"bold"}>Game ID: {props.gameId}</p>
+                <p className={"bold"}>You are: {props.isChaser ? "👮 CHASER" : "🦹‍ EVADER"}</p>
+                <br></br>
+                <p className={"bold"}>Your Pages</p>
+                <p>{playerPages.join(" → ")}</p>
+                <p className={"bold"}>Opponent Pages</p>
+                <p>{opponentPages.join(" → ")}</p>
             </div>
         </div>
     )
