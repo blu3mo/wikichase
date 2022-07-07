@@ -19,7 +19,7 @@ function Game(props: Props) {
 
     const filterPageList = (pageList: string[]): string[] => {
         return pageList.map((page, index) => {
-            if (index % 3 === 0) {
+            if (index % 2 === 0) {
                 return page
             } else {
                 return "??"
