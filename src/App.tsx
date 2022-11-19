@@ -11,10 +11,10 @@ function App() {
     const GameRouter = () => {
         const { gameId, playerType } = useParams();
         switch (playerType) {
-            case 'chaser':
-                return <Game gameId={gameId!} isChaser={true}/>;
-            case 'evader':
-                return <Game gameId={gameId!} isChaser={false}/>;
+            case 'hunter':
+                return <Game gameId={gameId!} isHunter={true}/>;
+            case 'runner':
+                return <Game gameId={gameId!} isHunter={false}/>;
             default:
                 return <></>;
         }

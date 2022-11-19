@@ -7,14 +7,14 @@ import {useValueRef} from "../hooks/helpers/useValueRef";
 
 type Props = {
     gameId: string;
-    isChaser: boolean;
+    isHunter: boolean;
 }
 
 function Game(props: Props) {
     console.log(props)
     console.log(useParams().gameId!)
 
-    const {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, evaderCooldownDuration, isGameSet} = useGame(props.gameId, props.isChaser);
+    const {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet} = useGame(props.gameId, props.isHunter);
     const refCooldownRemaining = useValueRef<number>(cooldownRemaining)
 
     const filterPageList = (pageList: string[]): string[] => {
@@ -44,15 +44,15 @@ function Game(props: Props) {
                         window.alert("Wait before next move...")
                     }
                 }}
-                hideBottomContent={!props.isChaser} //Evaderには隠される
+                hideBottomContent={!props.isHunter} //Runnerには隠される
             />
             <div className="sideBar">
                 <p className={"bold"}>Game ID: {props.gameId}</p>
-                <p className={"bold"}>You are: {props.isChaser ? "👮 CHASER" : "🦹‍ EVADER"}</p>
+                <p className={"bold"}>You are: {props.isHunter ? "👮 HUNTER" : "🏃 RUNNER"}</p>
                 <br></br>
-                {!props.isChaser &&
+                {!props.isHunter &&
                     <>
-                      <p className={"bold"}>{cooldownRemaining === 0 ? "🟢 You can move!" : `⏳ Wait ${evaderCooldownDuration} sec before next move...`}</p>
+                      <p className={"bold"}>{cooldownRemaining === 0 ? "🟢 You can move!" : `⏳ Wait ${runnerCooldownDuration} sec before next move...`}</p>
                       <p className={"bold"}>{"|".repeat(Math.ceil(cooldownRemaining * 2))}</p>
                       <br></br>
                     </>
@@ -63,17 +63,17 @@ function Game(props: Props) {
                     <br></br>
                   </>
                 }
-                <p className={"bold"}>👮 Chaser Log</p>
+                <p className={"bold"}>👮 Hunter Log</p>
                 <p>{
-                    (props.isChaser ? playerPages : opponentPages)
+                    (props.isHunter ? playerPages : opponentPages)
                         .slice().reverse().join(" ← ")
                 }</p>
-                <p className={"bold"}>🦹 Evader Log</p>
+                <p className={"bold"}>🦹 Runner Log</p>
                 <p>{
                     (isGameSet) ?
-                        ((props.isChaser) ? opponentPages : playerPages)
+                        ((props.isHunter) ? opponentPages : playerPages)
                             .slice().reverse().join(" ← ") :
-                        filterPageList((props.isChaser) ? opponentPages : playerPages)
+                        filterPageList((props.isHunter) ? opponentPages : playerPages)
                             .slice().reverse().join(" ← ")
                 }</p>
             </div>
