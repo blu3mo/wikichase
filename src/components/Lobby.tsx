@@ -10,7 +10,7 @@ import {
     Stack,
     Center,
     Modal,
-    ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, useDisclosure
+    ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, useDisclosure, HStack
 } from '@chakra-ui/react'
 
 type Props = {
@@ -27,15 +27,18 @@ function Lobby(props: Props) {
             <Center>
                 <Box p={20} textAlign="left" maxW={1000}>
                     <Heading>Manhunt Game on Wikipedia</Heading>
-                    <Heading fontSize="8xl" lineHeight={1} mb={3}>
-                        Wikichase
-                    </Heading>
+                    <HStack align={"end"}>
+                        <Heading fontSize="8xl" lineHeight={1} mb={3}>
+                            Wikichase
+                        </Heading>
+                        <Text fontSize={"l"} fontWeight={"extrabold"} pb={4}>v0.1</Text>
+                    </HStack>
                     <Stack spacing={0} ml={1} textAlign="justify">
-                        <Text fontSize="3xl" lineHeight={1.4}>
+                        <Text fontSize="3xl" lineHeight={1.4} fontWeight={"semibold"}>
                             Hop around pages <Text as={'b'}>by clicking links. 👆</Text>
-                            <br/>If you are <Text as={'b'}>Hunter 👮</Text>, aim to <Text as={'b'}>catch the runner</Text>.
+                            <br/>If you are <Text as={'b'}>Hunter 👮</Text>, <Text as={'b'}>catch the runner</Text>.
                             <br/>Reach the page where the runner is, and you win.
-                            <br/>If you are <Text as={'b'}>Runner 🏃</Text>, aim to <Text as={'b'}>reach the designated goal page</Text>.
+                            <br/>If you are <Text as={'b'}>Runner 🏃</Text>, <Text as={'b'}>reach the designated goal page</Text>.
                             <br/>Get to the goal without getting caught, and you win.
                             <br/>
                         </Text>
@@ -48,8 +51,9 @@ function Lobby(props: Props) {
                         fontStyle="italic"
                         mt={3}
                         onClick={onOpen}
+                        fontWeight={"bold"}
                     >
-                        Ready? <Text as='mark'><Text as='u'>Click Here to Play.（WIP)</Text></Text>
+                        Ready? <Text as='mark'><Text as='u'>Click Here to Play.</Text></Text>
                     </Button>
                 </Box>
             </Center>
@@ -65,7 +69,7 @@ function Lobby(props: Props) {
                             size="md"
                             height={20}
                             fontWeight="bold"
-                            fontSize="2xl"
+                            fontSize="3xl"
                             onClick={createGame}
                         >
                             ✋ Create a room
@@ -75,7 +79,7 @@ function Lobby(props: Props) {
                             size="md"
                             height={20}
                             fontWeight="bold"
-                            fontSize="2xl"
+                            fontSize="3xl"
                             onClick={joinGame}
                         >
                             🏢 Join a room
