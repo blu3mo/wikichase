@@ -53,7 +53,7 @@ function Game(props: Props) {
     return (
         <>
             <ChakraProvider>
-                <Modal isOpen={isOpen} onClose={onClose}>
+                <Modal isOpen={isOpen} onClose={onClose} isCentered>
                     <ModalOverlay />
                     <ModalContent>
                         <ModalHeader pb={0}>Welcome to the game!</ModalHeader>
