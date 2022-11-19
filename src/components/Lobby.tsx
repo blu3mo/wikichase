@@ -14,7 +14,7 @@ function Lobby(props: Props) {
                     Wikichase
                 </Heading>
                 <Stack spacing={0} ml={1} textAlign="justify">
-                    <Text fontSize="3xl" >
+                    <Text fontSize="3xl" lineHeight={1.4}>
                         Hop around pages <Text as={'b'}>by clicking links. 👆</Text>
                         <br/>
                         If you are <Text as={'b'}>Hunter 👮</Text>, aim to <Text as={'b'}>catch the runner</Text>. Reach the page where the runner is, and you win.
@@ -31,7 +31,7 @@ function Lobby(props: Props) {
                     fontStyle="italic"
                     mt={3}
                 >
-                    <Text as='u'>Ready? Click Here to Start.</Text>
+                    <Text as='u'>Ready? Click Here to Start.（WIP)</Text>
                 </Button>
             </Box>
         </ChakraProvider>
