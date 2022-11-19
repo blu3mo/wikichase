@@ -33,10 +33,10 @@ function Lobby(props: Props) {
                     <Stack spacing={0} ml={1} textAlign="justify">
                         <Text fontSize="3xl" lineHeight={1.4}>
                             Hop around pages <Text as={'b'}>by clicking links. 👆</Text>
-                            <br/>
-                            If you are <Text as={'b'}>Hunter 👮</Text>, aim to <Text as={'b'}>catch the runner</Text>. Reach the page where the runner is, and you win.
-                            <br/>
-                            If you are <Text as={'b'}>Runner 🏃</Text>, aim to <Text as={'b'}>reach the designated goal page</Text>.  Get to the goal without getting caught, and you win.
+                            <br/>If you are <Text as={'b'}>Hunter 👮</Text>, aim to <Text as={'b'}>catch the runner</Text>.
+                            <br/>Reach the page where the runner is, and you win.
+                            <br/>If you are <Text as={'b'}>Runner 🏃</Text>, aim to <Text as={'b'}>reach the designated goal page</Text>.
+                            <br/>Get to the goal without getting caught, and you win.
                             <br/>
                         </Text>
                     </Stack>
