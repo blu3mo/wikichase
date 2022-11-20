@@ -2,7 +2,7 @@ import React, {MouseEventHandler, useEffect} from "react";
 import {getDatabase, ref, set, get, push, child, onValue, DatabaseReference, serverTimestamp} from "firebase/database";
 import {useInterval} from "usehooks-ts";
 
-function useGame(gameId: string, isChaser: boolean) {
+function useGame(gameId: string, isHunter: boolean) {
     const [title, setTitle] = React.useState("Loading...");
 
     const [playerPages, setPlayerPages] = React.useState<string[]>([]);
@@ -15,18 +15,18 @@ function useGame(gameId: string, isChaser: boolean) {
     const db = getDatabase();
     const gameRef = ref(db, `games/${gameId}`);
 
-    const chaserRef = child(gameRef, "chaser");
-    const evaderRef = child(gameRef, "evader");
+    const hunterRef = child(gameRef, "hunter");
+    const runnerRef = child(gameRef, "runner");
 
-    const playerRef = isChaser ? chaserRef : evaderRef;
+    const playerRef = isHunter ? hunterRef : runnerRef;
     const playerPageRef = child(playerRef, "pages")
-    const opponentRef = !isChaser ? chaserRef : evaderRef;
+    const opponentRef = !isHunter ? hunterRef : runnerRef;
     const opponentPageRef = child(opponentRef, "pages");
 
     const lastJumpedTimeRef = child(playerRef, "lastJumpedTime");
 
     //Game Params
-    const evaderCooldownDuration = 8 //sec
+    const runnerCooldownDuration = 8 //sec
 
     React.useEffect(() => {
         get(playerPageRef).then((snapshot) => {
@@ -35,7 +35,7 @@ function useGame(gameId: string, isChaser: boolean) {
                 setTitle(pages.slice(-1)[0])
             } else {
                 //初期設定
-                onLinkChange(isChaser ? "警察" : "怪盗")
+                onLinkChange(isHunter ? "警察" : "怪盗")
             }
         })
 
@@ -58,11 +58,11 @@ function useGame(gameId: string, isChaser: boolean) {
 
         const timers: NodeJS.Timer[] = []
 
-        if (!isChaser) {
+        if (!isHunter) {
             const cooldownInterval = setInterval(() => {
                 setCooldownRemaining(
-                    //refLastJumpedTimeは自プレイヤーのlastJumpedTimeを返す。この時はevaderなので問題なし。
-                    Math.max(0, evaderCooldownDuration - (new Date().getTime() - lastJumpedTime) / 1000)
+                    //refLastJumpedTimeは自プレイヤーのlastJumpedTimeを返す。この時はrunnerなので問題なし。
+                    Math.max(0, runnerCooldownDuration - (new Date().getTime() - lastJumpedTime) / 1000)
                 )
             }, 500);
             timers.push(cooldownInterval)
@@ -77,17 +77,17 @@ function useGame(gameId: string, isChaser: boolean) {
     }, []);
 
     useInterval(() => {
-        //cooldown (evaderの時のみ)
-        if (!isChaser) {
+        //cooldown (runnerの時のみ)
+        if (!isHunter) {
             setCooldownRemaining(
-                //lastJumpedTimeは自プレイヤーのlastJumpedTimeを返す。この時はevaderなので問題なし。
-                Math.max(0, evaderCooldownDuration - (new Date().getTime() - lastJumpedTime) / 1000)
+                //lastJumpedTimeは自プレイヤーのlastJumpedTimeを返す。この時はrunnerなので問題なし。
+                Math.max(0, runnerCooldownDuration - (new Date().getTime() - lastJumpedTime) / 1000)
             )
         }
 
         //judge
         if (playerPages.slice(-1)[0] === opponentPages.slice(-1)[0] && playerPages.slice(-1)[0] !== undefined) {
-            alert(`Game Set! Chaser caught evader at ${playerPages.slice(-1)[0]}`)
+            alert(`Game Set! Hunter caught runner at ${playerPages.slice(-1)[0]}`)
             setIsGameSet(true)
         }
     }, isGameSet ? null : 500)
@@ -106,14 +106,14 @@ function useGame(gameId: string, isChaser: boolean) {
     const onLinkChange = (title: string) => {
         setTitle(title)
         set(push(playerPageRef), title);
-        if (!isChaser) {
+        if (!isHunter) {
             console.log("ttt", lastJumpedTime)
             set(lastJumpedTimeRef, new Date().getTime());
             //setLastJumpedTime(new Date().getTime())
         }
     }
 
-    return {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, evaderCooldownDuration, isGameSet};
+    return {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet};
 }
 
 export { useGame };
