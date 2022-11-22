@@ -78,7 +78,7 @@ function Game(props: Props) {
 
             <div className="game">
                 <WikipediaPage
-                    lang="ja"
+                    lang="en"
                     title={title}
                     onLinkClick={(e) => {
                         e.preventDefault()

@@ -35,7 +35,8 @@ function useGame(gameId: string, isHunter: boolean) {
                 setTitle(pages.slice(-1)[0])
             } else {
                 //初期設定
-                onLinkChange(isHunter ? "警察" : "怪盗")
+                //onLinkChange(isHunter ? "警察" : "怪盗")
+                onLinkChange(isHunter ? "Detective" : "Fugitive")
             }
         })
 
