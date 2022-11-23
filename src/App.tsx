@@ -10,13 +10,15 @@ import { Helmet } from "react-helmet";
 
 function App() {
 
+    const lang = "ja";
+
     const GameRouter = () => {
         const { gameId, playerType } = useParams();
         switch (playerType) {
             case 'hunter':
-                return <Game gameId={gameId!} isHunter={true}/>;
+                return <Game gameId={gameId!} isHunter={true} lang={lang}/>;
             case 'runner':
-                return <Game gameId={gameId!} isHunter={false}/>;
+                return <Game gameId={gameId!} isHunter={false} lang={lang}/>;
             default:
                 return <></>;
         }

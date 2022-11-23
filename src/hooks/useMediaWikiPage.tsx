@@ -39,6 +39,14 @@ function useMediaWikiPage(apiURL: string, title: string, onLinkClick: MouseEvent
         //他Wikipediaページへの有効なリンクには、クラスやIDが付与されていない
     }
 
+    const checkIfTOC = (attribs: Attributes) => {
+        if (attribs.id = "toc") {
+            return true;
+        }
+        return false;
+    }
+
+
     useEffect(() => {
         fetchPageHTML(apiURL, title).then(HTMLString => {
             const pageElement = parse(HTMLString, {

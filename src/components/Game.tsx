@@ -2,7 +2,6 @@ import WikipediaPage from "./WikipediaPage";
 import React, {MouseEventHandler, useEffect} from "react";
 import {useGame} from "../hooks/game/useGame";
 import {useLocation, useParams} from "react-router-dom";
-import {Simulate} from "react-dom/test-utils";
 import {useValueRef} from "../hooks/helpers/useValueRef";
 
 import {
@@ -21,13 +20,14 @@ import {
 type Props = {
     gameId: string;
     isHunter: boolean;
+    lang: string;
 }
 
 function Game(props: Props) {
     console.log(props)
     console.log(useParams().gameId!)
 
-    const {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet} = useGame(props.gameId, props.isHunter);
+    const {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet} = useGame(props.gameId, props.isHunter, props.lang);
     const refCooldownRemaining = useValueRef<number>(cooldownRemaining)
 
     const location = useLocation()
@@ -78,7 +78,7 @@ function Game(props: Props) {
 
             <div className="game">
                 <WikipediaPage
-                    lang="ja"
+                    lang={props.lang}
                     title={title}
                     onLinkClick={(e) => {
                         e.preventDefault()

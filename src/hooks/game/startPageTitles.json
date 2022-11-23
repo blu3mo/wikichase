@@ -1,0 +1,12 @@
+{
+  "lang": {
+    "en": {
+      "hunter": ["Police", "Detective", "Sherlock Holmes", "明智小五郎", "金田一耕助"],
+      "runner": ["Gentleman thief", "Arsène Lupin", "Robin Hood"]
+    },
+    "ja": {
+      "hunter": ["警察", "探偵", "シャーロック・ホームズ", "明智小五郎", "金田一耕助"],
+      "runner": ["怪盗", "石川五右衛門", "アルセーヌ・ルパン", "ルパン三世"]
+    }
+  }
+}

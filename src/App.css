@@ -27,3 +27,13 @@
     pointer-events: none;
     filter: blur(3px);
 }
+
+/* Wikipedia Specific */
+
+#toc {
+    display: none;
+}
+
+.mw-ui-icon-flush-left {
+    display: none !important;
+}

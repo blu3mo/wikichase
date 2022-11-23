@@ -1,8 +1,9 @@
 import React, {MouseEventHandler, useEffect} from "react";
 import {getDatabase, ref, set, get, push, child, onValue, DatabaseReference, serverTimestamp} from "firebase/database";
 import {useInterval} from "usehooks-ts";
+import startPageTitles from './startPageTitles.json';
 
-function useGame(gameId: string, isHunter: boolean) {
+function useGame(gameId: string, isHunter: boolean, lang: string) {
     const [title, setTitle] = React.useState("Loading...");
 
     const [playerPages, setPlayerPages] = React.useState<string[]>([]);
@@ -35,7 +36,7 @@ function useGame(gameId: string, isHunter: boolean) {
                 setTitle(pages.slice(-1)[0])
             } else {
                 //初期設定
-                onLinkChange(isHunter ? "警察" : "怪盗")
+                onLinkChange(generateStartTitle())
             }
         })
 
@@ -111,6 +112,13 @@ function useGame(gameId: string, isHunter: boolean) {
             set(lastJumpedTimeRef, new Date().getTime());
             //setLastJumpedTime(new Date().getTime())
         }
+    }
+
+    const generateStartTitle = () => {
+        //TODO: Handle null
+        const titles = (startPageTitles as any)["lang"][lang][(isHunter ? "hunter" : "runner")]
+        const title = titles[Math.floor((Math.random()*titles.length))]
+        return title
     }
 
     return {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet};
