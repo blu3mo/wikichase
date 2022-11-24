@@ -40,7 +40,7 @@ function Game(props: Props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const filterPageList = (pageList: string[]): string[] => {
+    const maskPageList = (pageList: string[]): string[] => {
         return pageList.map((page, index) => {
             if (index % 2 === 0) {
                 return page
@@ -77,6 +77,31 @@ function Game(props: Props) {
             </ChakraProvider>
 
             <div className="game">
+                <div className="statusBar">
+                    <p className={"bold"}>You are: {props.isHunter ? "Hunter 👮" : "Runner 🏃"}</p>
+                    {!props.isHunter &&
+                        <>
+                          <p className={"bold"}>{cooldownRemaining === 0 ? "🟢 You can move!" : `⏳ Wait ${runnerCooldownDuration} sec before next move...`}</p>
+                          {
+                              (Math.ceil(cooldownRemaining * 2) === 0) ?
+                                  <br></br> :
+                                  <p className={"bold"}>{"|".repeat(Math.ceil(cooldownRemaining * 2))}</p>
+                          }
+                        </>
+                    }
+                    {isGameSet &&
+                      <>
+                        <h3 className={"bold"}>🚨 GAME SET! 🚨</h3>
+                        <br></br>
+                      </>
+                    }
+                    <p className={"bold"}>{props.isHunter ? "🦹 Runner Log:" : "👮 Chaser Log:"}</p>
+                    <p className={"playerLog"}>{
+                        (props.isHunter) ? //Hunter cannot see one in two moves of runner
+                            maskPageList(opponentPages).slice().reverse().join(" ← ") :
+                            opponentPages.slice().reverse().join(" ← ")
+                    }</p>
+                </div>
                 <WikipediaPage
                     lang={props.lang}
                     title={title}
@@ -94,37 +119,6 @@ function Game(props: Props) {
                     }}
                     hideBottomContent={!props.isHunter} //Runnerには隠される
                 />
-                <div className="sideBar">
-                    <p className={"bold"}>Room ID: {props.gameId}</p>
-                    <p className={"bold"}>You are: {props.isHunter ? "Hunter 👮" : "Runner 🏃"}</p>
-                    <br></br>
-                    {!props.isHunter &&
-                        <>
-                          <p className={"bold"}>{cooldownRemaining === 0 ? "🟢 You can move!" : `⏳ Wait ${runnerCooldownDuration} sec before next move...`}</p>
-                          <p className={"bold"}>{"|".repeat(Math.ceil(cooldownRemaining * 2))}</p>
-                          <br></br>
-                        </>
-                    }
-                    {isGameSet &&
-                      <>
-                        <h3 className={"bold"}>🚨 GAME SET! 🚨</h3>
-                        <br></br>
-                      </>
-                    }
-                    <p className={"bold"}>👮 Hunter Log</p>
-                    <p>{
-                        (props.isHunter ? playerPages : opponentPages)
-                            .slice().reverse().join(" ← ")
-                    }</p>
-                    <p className={"bold"}>🦹 Runner Log</p>
-                    <p>{
-                        (isGameSet) ?
-                            ((props.isHunter) ? opponentPages : playerPages)
-                                .slice().reverse().join(" ← ") :
-                            filterPageList((props.isHunter) ? opponentPages : playerPages)
-                                .slice().reverse().join(" ← ")
-                    }</p>
-                </div>
             </div>
         </>
 

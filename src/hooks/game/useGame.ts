@@ -57,24 +57,6 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
             }
         })
 
-        const timers: NodeJS.Timer[] = []
-
-        if (!isHunter) {
-            const cooldownInterval = setInterval(() => {
-                setCooldownRemaining(
-                    //refLastJumpedTimeは自プレイヤーのlastJumpedTimeを返す。この時はrunnerなので問題なし。
-                    Math.max(0, runnerCooldownDuration - (new Date().getTime() - lastJumpedTime) / 1000)
-                )
-            }, 500);
-            timers.push(cooldownInterval)
-        }
-
-        const judgeInterval = setInterval(() => {
-            console.log(playerPages.slice(-1)[0])
-            console.log(opponentPages.slice(-1)[0])
-        }, 500);
-        timers.push(judgeInterval)
-
     }, []);
 
     useInterval(() => {
