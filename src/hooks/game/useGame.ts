@@ -30,6 +30,13 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
     const runnerCooldownDuration = 8 //sec
 
     React.useEffect(() => {
+        const setFillHeight = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        window.addEventListener('resize', setFillHeight);
+        setFillHeight();
+
         console.log("RUN0")
         get(playerPageRef).then((snapshot) => {
             if (snapshot.exists()) {
