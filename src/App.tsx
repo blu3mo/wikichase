@@ -34,7 +34,7 @@ function App() {
                 <Route
                     path="/"
                     element={
-                        <Lobby />
+                        <Lobby lang={lang}/>
                     }
                 ></Route>
                 <Route

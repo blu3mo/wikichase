@@ -30,13 +30,13 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
     const runnerCooldownDuration = 8 //sec
 
     React.useEffect(() => {
+        console.log("RUN0")
         get(playerPageRef).then((snapshot) => {
             if (snapshot.exists()) {
                 const pages = Object.values(snapshot.val()) as string[]
                 setTitle(pages.slice(-1)[0])
             } else {
-                //初期設定
-                onLinkChange(generateStartTitle())
+                console.log("Start Page Missing...")
             }
         })
 
@@ -90,17 +90,8 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
         setTitle(title)
         set(push(playerPageRef), title);
         if (!isHunter) {
-            console.log("ttt", lastJumpedTime)
             set(lastJumpedTimeRef, new Date().getTime());
-            //setLastJumpedTime(new Date().getTime())
         }
-    }
-
-    const generateStartTitle = () => {
-        //TODO: Handle null
-        const titles = (startPageTitles as any)["lang"][lang][(isHunter ? "hunter" : "runner")]
-        const title = titles[Math.floor((Math.random()*titles.length))]
-        return title
     }
 
     return {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet};

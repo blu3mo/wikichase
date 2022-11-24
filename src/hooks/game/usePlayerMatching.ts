@@ -5,8 +5,9 @@ import randomWords from "random-words"
 import firebase from "firebase/compat";
 import game from "../../components/Game";
 import {useNavigate} from "react-router-dom";
+import startPageTitles from "./startPageTitles.json";
 
-function usePlayerMatching() {
+function usePlayerMatching(lang: string) {
 
     const db = getDatabase();
     const navigate = useNavigate();
@@ -14,6 +15,15 @@ function usePlayerMatching() {
     const createGame = async () => {
         //TODO: Handle generation error
         const gameId = await createValidGameId()
+
+        const db = getDatabase();
+        const gameRef = ref(db, `games/${gameId}`);
+        const hunterPageRef = child(gameRef, "hunter/pages");
+        const runnerPageRef = child(gameRef, "runner/pages");
+
+        set(push(hunterPageRef), generateStartTitle(true));
+        set(push(runnerPageRef), generateStartTitle(false));
+
         navigate(`/${gameId}/hunter`, { state : { newGame: true } })
     }
 
@@ -51,6 +61,13 @@ function usePlayerMatching() {
         } else {
             window.alert("Your room id does not exist. Try again.")
         }
+    }
+
+    const generateStartTitle = (isHunter: boolean) => {
+        //TODO: Handle null
+        const titles = (startPageTitles as any)["lang"][lang][(isHunter ? "hunter" : "runner")]
+        const title = titles[Math.floor((Math.random()*titles.length))]
+        return title
     }
 
     return {createGame, joinGame}

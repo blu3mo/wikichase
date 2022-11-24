@@ -14,13 +14,13 @@ import {
 } from '@chakra-ui/react'
 
 type Props = {
-
+    lang: string
 }
 
 function Lobby(props: Props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { createGame, joinGame } = usePlayerMatching()
+    const { createGame, joinGame } = usePlayerMatching(props.lang)
 
     return (
         <ChakraProvider resetCSS>

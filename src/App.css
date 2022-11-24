@@ -20,7 +20,6 @@
 
 .playerLog {
     width: 100%;
-    text-align: right;
     overflow: scroll;
     white-space: nowrap;
 }
