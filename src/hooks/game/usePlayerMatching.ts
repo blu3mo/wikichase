@@ -6,6 +6,7 @@ import firebase from "firebase/compat";
 import game from "../../components/Game";
 import {useNavigate} from "react-router-dom";
 import startPageTitles from "./startPageTitles.json";
+import goalPageTitles from "./goalPageTitles.json";
 
 function usePlayerMatching(lang: string) {
 
@@ -23,6 +24,7 @@ function usePlayerMatching(lang: string) {
 
         set(push(hunterPageRef), generateStartTitle(true));
         set(push(runnerPageRef), generateStartTitle(false));
+        set(child(gameRef, "goalPage"), generateGoalTitle());
 
         navigate(`/${gameId}/hunter`, { state : { newGame: true } })
     }
@@ -66,6 +68,13 @@ function usePlayerMatching(lang: string) {
     const generateStartTitle = (isHunter: boolean) => {
         //TODO: Handle null
         const titles = (startPageTitles as any)["lang"][lang][(isHunter ? "hunter" : "runner")]
+        const title = titles[Math.floor((Math.random()*titles.length))]
+        return title
+    }
+
+    const generateGoalTitle = () => {
+        //TODO: Handle null
+        const titles = (goalPageTitles as any)["lang"][lang]
         const title = titles[Math.floor((Math.random()*titles.length))]
         return title
     }

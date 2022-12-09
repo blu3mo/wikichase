@@ -27,7 +27,7 @@ function Game(props: Props) {
     console.log(props)
     console.log(useParams().gameId!)
 
-    const {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet} = useGame(props.gameId, props.isHunter, props.lang);
+    const {title, onLinkChange, playerPages, opponentPages, hunterPages, runnerPages, cooldownRemaining, runnerCooldownDuration, isGameSet, goalPage, endingTime} = useGame(props.gameId, props.isHunter, props.lang);
     const refCooldownRemaining = useValueRef<number>(cooldownRemaining)
 
     const location = useLocation()
@@ -79,6 +79,9 @@ function Game(props: Props) {
             <div className="game">
                 <div className="statusBar">
                     <p className={"bold"}>You are: {props.isHunter ? "Hunter 👮" : "Runner 🏃"}</p>
+                    <p className={"bold"}>{props.isHunter ?
+                        `Catch the runner in 0:00 min!`:
+                        `Go to ${goalPage} in 0:00 min before getting caught!`}</p>
                     {!props.isHunter &&
                         <>
                           <p className={"bold"}>{cooldownRemaining === 0 ? "🟢 You can move!" : `⏳ Wait ${runnerCooldownDuration} sec before next move...`}</p>

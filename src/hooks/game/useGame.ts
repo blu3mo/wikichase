@@ -8,7 +8,12 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
 
     const [playerPages, setPlayerPages] = React.useState<string[]>([]);
     const [opponentPages, setOpponentPages] = React.useState<string[]>([]);
+    const hunterPages = (isHunter ? playerPages : opponentPages)
+    const runnerPages = (isHunter ? opponentPages : playerPages)
+
     const [lastJumpedTime, setLastJumpedTime] = React.useState<number>(0);
+    const [goalPage, setGoalPage] = React.useState("");
+    const [endingTime, setEndingTime] = React.useState<number>(0);
     const [cooldownRemaining, setCooldownRemaining] = React.useState<number>(0);
 
     const [isGameSet, setIsGameSet] = React.useState<boolean>(false);
@@ -19,12 +24,15 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
     const hunterRef = child(gameRef, "hunter");
     const runnerRef = child(gameRef, "runner");
 
+
     const playerRef = isHunter ? hunterRef : runnerRef;
     const playerPageRef = child(playerRef, "pages")
     const opponentRef = !isHunter ? hunterRef : runnerRef;
     const opponentPageRef = child(opponentRef, "pages");
 
     const lastJumpedTimeRef = child(playerRef, "lastJumpedTime");
+    const goalPageRef = child(gameRef, "goalPage");
+    const endingTimeRef = child(gameRef, "endingTime");
 
     //Game Params
     const runnerCooldownDuration = 8 //sec
@@ -60,7 +68,23 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
                 const lastJumpedTime = snapshot.val()
                 setLastJumpedTime(lastJumpedTime)
             } else {
-                console.log("No data available");
+                console.log("lastJumpedTime Unavailable");
+            }
+        })
+
+        onValue(goalPageRef, (snapshot) => {
+            if (snapshot.exists()) {
+                setGoalPage(snapshot.val())
+            } else {
+                console.log("goalPage Unavailable");
+            }
+        })
+
+        onValue(endingTimeRef, (snapshot) => {
+            if (snapshot.exists()) {
+                setEndingTime(snapshot.val())
+            } else {
+                console.log("endingTime Unavailable");
             }
         })
 
@@ -76,8 +100,11 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
         }
 
         //judge
-        if (playerPages.slice(-1)[0] === opponentPages.slice(-1)[0] && playerPages.slice(-1)[0] !== undefined) {
+        if (hunterPages.slice(-1)[0] === runnerPages.slice(-1)[0] && hunterPages.slice(-1)[0] !== undefined) {
             alert(`Game Set! Hunter caught runner at ${playerPages.slice(-1)[0]}`)
+            setIsGameSet(true)
+        } else if (runnerPages.slice(-1)[0] === goalPage) {
+            alert(`Game Set! Runner reached the goal at ${runnerPages.slice(-1)[0]}`)
             setIsGameSet(true)
         }
     }, isGameSet ? null : 500)
@@ -101,7 +128,7 @@ function useGame(gameId: string, isHunter: boolean, lang: string) {
         }
     }
 
-    return {title, onLinkChange, playerPages, opponentPages, cooldownRemaining, runnerCooldownDuration, isGameSet};
+    return {title, onLinkChange, playerPages, opponentPages, hunterPages, runnerPages, cooldownRemaining, runnerCooldownDuration, isGameSet, goalPage, endingTime};
 }
 
 export { useGame };
