@@ -95,15 +95,14 @@ function Game(props: Props) {
                     {isGameSet &&
                       <>
                         <h3 className={"bold"}>🚨 GAME SET! 🚨</h3>
-                        <br></br>
                       </>
                     }
-                    <p className={"bold"}>{props.isHunter ? "🦹 Runner Log:" : "👮 Chaser Log:"}</p>
-                    <p className={"playerLog"}>{
-                        (props.isHunter) ? //Hunter cannot see one in two moves of runner
-                            maskPageList(opponentPages).slice().reverse().join(" ← ") :
-                            opponentPages.slice().reverse().join(" ← ")
-                    }</p>
+                    <p className={"playerLog"}>
+                        {"Runner Log: " + maskPageList(runnerPages).slice().reverse().join(" ← ")}
+                    </p>
+                    <p className={"playerLog"}>
+                        {"Hunter Log: " + hunterPages.slice().reverse().join(" ← ")}
+                    </p>
                 </div>
                 <WikipediaPage
                     lang={props.lang}

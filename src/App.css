@@ -6,7 +6,7 @@
 }
 
 .statusBar {
-    flex-basis: 120px;
+    flex-basis: 150px;
     border-left: 1px solid #ccc;
     flex-shrink: 0;
     overflow: scroll;
@@ -14,8 +14,8 @@
 }
 
 .mediaWikiPage {
-    height: calc(100vh - 120px); /* カスタムプロパティ未対応ブラウザ用のフォールバック */
-    height: calc(var(--vh, 1vh) * 100 - 120px);
+    height: calc(100vh - 150px); /* カスタムプロパティ未対応ブラウザ用のフォールバック */
+    height: calc(var(--vh, 1vh) * 100 - 150px);
     overflow: scroll;
 }
 
